@@ -11,4 +11,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        outDir: 'public', // Especifica el directorio de salida
+        emptyOutDir: true, // Limpia el directorio antes de compilar
+    },
 });

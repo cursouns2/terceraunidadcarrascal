@@ -12,7 +12,7 @@ export default defineConfig({
         }),
     ],
     build: {
-        outDir: 'public', // Especifica el directorio de salida
+        outDir: 'dist', // Vercel busca "dist" por defecto
         emptyOutDir: true, // Limpia el directorio antes de compilar
     },
 });

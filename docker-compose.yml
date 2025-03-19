@@ -1,0 +1,60 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:8000"
+    environment:
+      APP_NAME: Laravel
+      APP_ENV: production
+      APP_KEY: base64:X+dy5mFh+VvT4neE7UJ+JGH6/yghyFzHQec5CigCkNg=
+      APP_DEBUG: false
+      APP_URL: http://35.184.112.193 # O tu dominio
+      DB_CONNECTION: mysql
+      DB_HOST: db # Usar el nombre del servicio de la base de datos
+      DB_PORT: 3306
+      DB_DATABASE: ixocakuy_tambowork
+      DB_USERNAME: root
+      DB_PASSWORD: "123456" # ¡Asegúrate de usar una contraseña segura en producción!
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: database
+      SESSION_DRIVER: database
+      GOOGLE_CREDENTIALS_PATH: /var/www/html/storage/app/google-drive/producto-454004-517d93f61ca0.json
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - laravel
+    depends_on:
+      - db
+      - redis
+    command: ["sh", "-c", "docker-php-ext-enable openssl && php artisan serve --host=0.0.0.0 --port=8000"]
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456" # ¡Asegúrate de usar una contraseña segura en producción!
+      MYSQL_DATABASE: ixocakuy_tambowork
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - laravel
+    ports:
+      - "3306:3306"  # IMPORTANTE: Esto solo es para depuración local. ¡No lo publiques en producción!
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"  # IMPORTANTE: Esto solo es para depuración local. ¡No lo publiques en producción!
+    networks:
+      - laravel
+
+networks:
+  laravel:
+
+volumes:
+  db_data:

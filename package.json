@@ -22,5 +22,8 @@
     },
     "dependencies": {
         "chart.js": "^4.4.6"
+    },
+    "buildOptions": {
+        "outDir": "public"
     }
 }
